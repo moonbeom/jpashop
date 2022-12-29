@@ -7,7 +7,9 @@ import jpabook.jpashop.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Service
@@ -47,7 +49,7 @@ public class OrderService {
     //주문 취소
     @Transactional
     public void cancelOrder(Long orderId) {
-        Order order = orderRepository.findOne(orderId);
+        Order order = orderRepository.findOne(orderId); //주문 엔티티 조회
         order.cancel();
     }
 
@@ -55,14 +57,9 @@ public class OrderService {
         return orderRepository.findOne(orderId);
     }
 
-    //주문 조회(동적)
-
-    public List<Order> findAll(String name, OrderStatus status) {
-
-        String jpql = "select o From Order o join o.member m";
-
-        jpql += "where";
-
+    // 검색  //리턴값이 오더였으니
+    public List<Order> searchOrders(OrderSearch orderSearch) {
+        return orderRepository.findAll(orderSearch);
     }
-
 }
+

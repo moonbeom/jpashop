@@ -14,7 +14,7 @@ public class Address {
 
     protected Address() {
 
-    }
+    } //기본 생성자 하나는 있어야함.
     public Address(String city, String street, String zipcode) {
         this.city = city;
         this.street = street;
