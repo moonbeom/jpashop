@@ -29,7 +29,11 @@ public class ItemService {
         return itemRepository.findOne(itemId);
     }
 
-    public void update(Item item) {
-        itemRepository.save(item);
+    @Transactional
+    public void update(Long id, String name, int price, int stockQuantity) {
+        Item findItem = itemRepository.findOne(id);
+        findItem.setStockQuantity(stockQuantity);
+        findItem.setPrice(price);
+        findItem.setName(name);
     }
 }

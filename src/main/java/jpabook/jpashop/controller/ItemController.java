@@ -1,7 +1,6 @@
 package jpabook.jpashop.controller;
 
 import jpabook.jpashop.controller.form.BookForm;
-import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Book;
 import jpabook.jpashop.domain.Item;
 import jpabook.jpashop.service.ItemService;
@@ -62,14 +61,13 @@ public class ItemController {
     public String updateForm(@PathVariable("id") Long id, Model model) {
         // 아이템 조회
         Item item = itemService.findOne(id);
-        Book book = new Book();//생성
         BookForm form = new BookForm();//생성
-        book.setName(form.getName());
-        book.setAuthor(form.getAuthor());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setIsbn(form.getIsbn());
-        book.setId(form.getId());
+        form.setName(item.getName());
+        form.setAuthor(item.getAuthor());
+        form.setPrice(item.getPrice());
+        form.setStockQuantity(item.getStockQuantity());
+        form.setIsbn(item.getIsbn());
+        form.setId(item.getId());
 
         model.addAttribute("form", form);
 
@@ -78,10 +76,15 @@ public class ItemController {
         return"items/updateItemForm";
     }
 
-    @PostMapping("/items/{id}/edit")
+    @PostMapping("/items/{id}/edit")  //db에서 가지고 와서 id 가져와서
     public String update(@ModelAttribute("form") BookForm form) {
-       itemService.update();
-        return "/items/new";
+        // 클라이언트에게 받은 데이터로 수정해주고
+        itemService.update(form.getId(),form.getName(),form.getPrice(),form.getStockQuantity());
+        //        itemService.update(item);
+        //다시 db로 보내준다.
+        return "redirect:/items";
     }
+
+
 
 }
