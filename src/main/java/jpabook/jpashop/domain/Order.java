@@ -26,7 +26,7 @@ public class Order {
     private Member member; //멤버 객체로 쓸 때 이렇게 필드 선언을 해줘야한다.
 
     @JsonIgnore
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
